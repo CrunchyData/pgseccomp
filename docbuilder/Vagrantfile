@@ -1,0 +1,30 @@
+# Note:  Vagrant Guest Additions is required
+# You may acquire it on your host system via: "sudo vagrant plugin install vagrant-vbguest"
+
+Vagrant.configure(2) do |config|
+    config.vm.box = "debian/contrib-buster64"
+
+    config.vm.provider :virtualbox do |vb|
+        vb.name = "pgseccomp-doc"
+    end
+
+    # Provision the VM
+    config.vm.provision "shell", inline: <<-SHELL
+        echo "Provisioning..."
+
+        # Setup environment
+        apt-get -y update
+        apt-get -y install pandoc 'texlive-*'
+
+        # Generate docs
+        cd /pgseccomp
+        version=$(grep "default_version" pgseccomp.control  | awk '{print $3}' | sed "s/'//g")
+        pandoc -f gfm -s README.md -o pgseccomp-UserGuide-$version.pdf
+    SHELL
+
+  # Don't share the default vagrant folder
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  # Mount project path for testing
+  config.vm.synced_folder "..", "/pgseccomp"
+end

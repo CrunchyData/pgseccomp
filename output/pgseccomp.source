@@ -1,0 +1,194 @@
+-- Create pgseccomp extension
+CREATE EXTENSION IF NOT EXISTS pgseccomp;
+-- Inspect the filter
+SELECT * from seccomp_filter() order by 2,3;
+     syscall     | syscallnum | filter_action  | context 
+-----------------+------------+----------------+---------
+ <default>       |         -1 | global->log    | global
+ <default>       |         -1 | session->log   | session
+ read            |          0 | global->allow  | global
+ read            |          0 | session->allow | session
+ write           |          1 | global->allow  | global
+ write           |          1 | session->allow | session
+ close           |          3 | global->allow  | global
+ close           |          3 | session->allow | session
+ stat            |          4 | global->allow  | global
+ stat            |          4 | session->allow | session
+ fstat           |          5 | global->allow  | global
+ fstat           |          5 | session->allow | session
+ lstat           |          6 | global->allow  | global
+ lstat           |          6 | session->allow | session
+ poll            |          7 | global->allow  | global
+ poll            |          7 | session->allow | session
+ lseek           |          8 | global->allow  | global
+ lseek           |          8 | session->allow | session
+ mmap            |          9 | global->allow  | global
+ mmap            |          9 | session->allow | session
+ mprotect        |         10 | global->allow  | global
+ mprotect        |         10 | session->allow | session
+ munmap          |         11 | global->allow  | global
+ munmap          |         11 | session->allow | session
+ brk             |         12 | global->allow  | global
+ brk             |         12 | session->allow | session
+ rt_sigaction    |         13 | global->allow  | global
+ rt_sigaction    |         13 | session->allow | session
+ rt_sigprocmask  |         14 | global->allow  | global
+ rt_sigprocmask  |         14 | session->allow | session
+ rt_sigreturn    |         15 | global->allow  | global
+ rt_sigreturn    |         15 | session->allow | session
+ ioctl           |         16 | global->allow  | global
+ ioctl           |         16 | session->allow | session
+ pread64         |         17 | global->allow  | global
+ pread64         |         17 | session->allow | session
+ pwrite64        |         18 | global->allow  | global
+ pwrite64        |         18 | session->allow | session
+ access          |         21 | global->allow  | global
+ access          |         21 | session->allow | session
+ pipe            |         22 | global->allow  | global
+ pipe            |         22 | session->allow | session
+ select          |         23 | global->allow  | global
+ select          |         23 | session->allow | session
+ mremap          |         25 | global->allow  | global
+ mremap          |         25 | session->allow | session
+ shmget          |         29 | global->allow  | global
+ shmget          |         29 | session->allow | session
+ shmat           |         30 | global->allow  | global
+ shmat           |         30 | session->allow | session
+ shmctl          |         31 | global->allow  | global
+ shmctl          |         31 | session->allow | session
+ dup             |         32 | global->allow  | global
+ dup             |         32 | session->allow | session
+ setitimer       |         38 | global->allow  | global
+ setitimer       |         38 | session->allow | session
+ getpid          |         39 | global->allow  | global
+ getpid          |         39 | session->allow | session
+ socket          |         41 | global->allow  | global
+ socket          |         41 | session->allow | session
+ connect         |         42 | global->allow  | global
+ connect         |         42 | session->allow | session
+ accept          |         43 | global->allow  | global
+ accept          |         43 | session->allow | session
+ sendto          |         44 | global->allow  | global
+ sendto          |         44 | session->allow | session
+ recvfrom        |         45 | global->allow  | global
+ recvfrom        |         45 | session->allow | session
+ recvmsg         |         47 | global->allow  | global
+ recvmsg         |         47 | session->allow | session
+ shutdown        |         48 | global->allow  | global
+ shutdown        |         48 | session->allow | session
+ bind            |         49 | global->allow  | global
+ bind            |         49 | session->allow | session
+ listen          |         50 | global->allow  | global
+ listen          |         50 | session->allow | session
+ getsockname     |         51 | global->allow  | global
+ getsockname     |         51 | session->allow | session
+ getpeername     |         52 | global->allow  | global
+ getpeername     |         52 | session->allow | session
+ setsockopt      |         54 | global->allow  | global
+ setsockopt      |         54 | session->allow | session
+ getsockopt      |         55 | global->allow  | global
+ getsockopt      |         55 | session->allow | session
+ clone           |         56 | global->allow  | global
+ clone           |         56 | session->allow | session
+ wait4           |         61 | global->allow  | global
+ wait4           |         61 | session->allow | session
+ kill            |         62 | global->allow  | global
+ kill            |         62 | session->allow | session
+ uname           |         63 | global->allow  | global
+ uname           |         63 | session->allow | session
+ shmdt           |         67 | global->allow  | global
+ shmdt           |         67 | session->allow | session
+ fcntl           |         72 | global->allow  | global
+ fcntl           |         72 | session->allow | session
+ fsync           |         74 | global->allow  | global
+ fsync           |         74 | session->allow | session
+ fdatasync       |         75 | global->allow  | global
+ fdatasync       |         75 | session->allow | session
+ ftruncate       |         77 | global->allow  | global
+ ftruncate       |         77 | session->allow | session
+ getdents        |         78 | global->allow  | global
+ getdents        |         78 | session->allow | session
+ rename          |         82 | global->allow  | global
+ rename          |         82 | session->allow | session
+ mkdir           |         83 | global->allow  | global
+ mkdir           |         83 | session->allow | session
+ rmdir           |         84 | global->allow  | global
+ rmdir           |         84 | session->allow | session
+ link            |         86 | global->allow  | global
+ link            |         86 | session->allow | session
+ unlink          |         87 | global->allow  | global
+ unlink          |         87 | session->allow | session
+ symlink         |         88 | global->allow  | global
+ symlink         |         88 | session->allow | session
+ readlink        |         89 | global->allow  | global
+ readlink        |         89 | session->error | session
+ chmod           |         90 | global->allow  | global
+ chmod           |         90 | session->allow | session
+ umask           |         95 | global->allow  | global
+ umask           |         95 | session->allow | session
+ getrusage       |         98 | global->allow  | global
+ getrusage       |         98 | session->allow | session
+ sysinfo         |         99 | global->allow  | global
+ sysinfo         |         99 | session->allow | session
+ getuid          |        102 | global->allow  | global
+ getuid          |        102 | session->allow | session
+ getgid          |        104 | global->allow  | global
+ getgid          |        104 | session->allow | session
+ geteuid         |        107 | global->allow  | global
+ geteuid         |        107 | session->allow | session
+ getegid         |        108 | global->allow  | global
+ getegid         |        108 | session->allow | session
+ getppid         |        110 | global->allow  | global
+ getppid         |        110 | session->allow | session
+ setsid          |        112 | global->allow  | global
+ setsid          |        112 | session->allow | session
+ utime           |        132 | global->allow  | global
+ utime           |        132 | session->allow | session
+ statfs          |        137 | global->allow  | global
+ statfs          |        137 | session->allow | session
+ prctl           |        157 | global->allow  | global
+ prctl           |        157 | session->allow | session
+ futex           |        202 | global->allow  | global
+ futex           |        202 | session->allow | session
+ fadvise64       |        221 | global->allow  | global
+ fadvise64       |        221 | session->allow | session
+ exit_group      |        231 | global->allow  | global
+ exit_group      |        231 | session->allow | session
+ epoll_wait      |        232 | global->allow  | global
+ epoll_wait      |        232 | session->allow | session
+ epoll_ctl       |        233 | global->allow  | global
+ epoll_ctl       |        233 | session->allow | session
+ openat          |        257 | global->allow  | global
+ openat          |        257 | session->allow | session
+ set_robust_list |        273 | global->allow  | global
+ set_robust_list |        273 | session->allow | session
+ sync_file_range |        277 | global->allow  | global
+ sync_file_range |        277 | session->allow | session
+ fallocate       |        285 | global->allow  | global
+ fallocate       |        285 | session->allow | session
+ epoll_create1   |        291 | global->allow  | global
+ epoll_create1   |        291 | session->allow | session
+ prlimit64       |        302 | global->allow  | global
+ prlimit64       |        302 | session->allow | session
+ seccomp         |        317 | global->allow  | global
+ seccomp         |        317 | session->allow | session
+ getrandom       |        318 | global->allow  | global
+ getrandom       |        318 | session->allow | session
+(170 rows)
+
+-- Create a dummy tablespace
+CREATE TABLESPACE regress_tblspace LOCATION '@testtablespace@';
+-- Force readlink syscall; should fail
+-- Need to wrap this with DO in order to trap the ERROR
+-- and not emit the potentially volitile tablespace oid
+DO $$
+BEGIN
+WITH a(tsid) AS
+(SELECT oid FROM pg_tablespace WHERE spcname = 'regress_tblspace')
+SELECT pg_tablespace_location(tsid) FROM a;
+EXCEPTION WHEN insufficient_privilege THEN
+  RAISE NOTICE 'could not read symbolic link for tablespace: Permission denied';
+END; $$ LANGUAGE plpgsql;
+NOTICE:  could not read symbolic link for tablespace: Permission denied
+-- Clean up
+DROP TABLESPACE regress_tblspace;

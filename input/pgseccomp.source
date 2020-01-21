@@ -1,0 +1,19 @@
+-- Create pgseccomp extension
+CREATE EXTENSION IF NOT EXISTS pgseccomp;
+-- Inspect the filter
+SELECT * from seccomp_filter() order by 2,3;
+-- Create a dummy tablespace
+CREATE TABLESPACE regress_tblspace LOCATION '@testtablespace@';
+-- Force readlink syscall; should fail
+-- Need to wrap this with DO in order to trap the ERROR
+-- and not emit the potentially volitile tablespace oid
+DO $$
+BEGIN
+WITH a(tsid) AS
+(SELECT oid FROM pg_tablespace WHERE spcname = 'regress_tblspace')
+SELECT pg_tablespace_location(tsid) FROM a;
+EXCEPTION WHEN insufficient_privilege THEN
+  RAISE NOTICE 'could not read symbolic link for tablespace: Permission denied';
+END; $$ LANGUAGE plpgsql;
+-- Clean up
+DROP TABLESPACE regress_tblspace;

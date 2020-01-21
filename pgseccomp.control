@@ -1,0 +1,5 @@
+# set_user extension
+comment = 'provide seccomp syscall filtering for PostgreSQL'
+default_version = '1.0'
+module_pathname = '$libdir/pgseccomp'
+relocatable = true
